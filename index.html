@@ -1,476 +1,109 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalX - Sàn Giao Dịch Thế Giới | Minh Nhut Dev</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire Anti-Cheat</title>
 
-    <style>
-        /* ========================================================
-           1. CSS VARIABLES & RESET
-           ======================================================== */
-        :root {
-            --bg-dark: #0b0e11;
-            --bg-panel: #181a20;
-            --bg-hover: #2b3139;
-            --text-main: #eaecef;
-            --text-muted: #848e9c;
-            --primary: #fcd535; /* Binance Yellow */
-            --primary-hover: #e5c02b;
-            --up-green: #0ecb81;
-            --down-red: #f6465d;
-            --border: #2b3139;
-            --transition: all 0.3s ease;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
-
-        /* Tiện ích */
-        .text-green { color: var(--up-green) !important; }
-        .text-red { color: var(--down-red) !important; }
-        .btn {
-            background: var(--primary); color: #1e2329; font-weight: 600;
-            padding: 10px 24px; border-radius: 6px; border: none; cursor: pointer; transition: var(--transition);
-        }
-        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
-        .btn-outline {
-            background: transparent; color: var(--primary); border: 1px solid var(--primary);
-        }
-        .btn-outline:hover { background: rgba(252, 213, 53, 0.1); }
-
-        /* ========================================================
-           2. HEADER & NAVIGATION
-           ======================================================== */
-        header {
-            background: var(--bg-panel); border-bottom: 1px solid var(--border);
-            position: fixed; width: 100%; top: 0; z-index: 1000;
-        }
-
-        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        
-        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
-        .logo i { font-size: 2rem; }
-
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links li a { color: var(--text-main); font-weight: 500; font-size: 0.95rem; transition: var(--transition); }
-        .nav-links li a:hover { color: var(--primary); }
-
-        .auth-buttons { display: flex; gap: 15px; align-items: center; }
-        .auth-buttons a.login { color: var(--text-main); font-weight: 500; }
-        .auth-buttons a.login:hover { color: var(--primary); }
-
-        /* ========================================================
-           3. LIVE TICKER TAPE
-           ======================================================== */
-        .ticker-wrap { width: 100%; background: #000; height: 40px; overflow: hidden; position: fixed; top: 70px; z-index: 999; border-bottom: 1px solid var(--border); }
-        .ticker { display: flex; width: max-content; animation: ticker 30s linear infinite; }
-        .ticker:hover { animation-play-state: paused; }
-        .ticker-item { display: flex; align-items: center; gap: 10px; padding: 0 30px; line-height: 40px; font-size: 0.85rem; font-weight: 600; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* ========================================================
-           4. HERO SECTION
-           ======================================================== */
-        .hero { margin-top: 150px; padding: 60px 0; }
-        .hero-content { display: flex; align-items: center; justify-content: space-between; gap: 50px; }
-        .hero-text { flex: 1; }
-        .hero-text h1 { font-family: 'Space Grotesk', sans-serif; font-size: 4rem; line-height: 1.1; margin-bottom: 20px; }
-        .hero-text p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; max-width: 80%; }
-        
-        .quick-trade-card {
-            flex: 0.8; background: var(--bg-panel); padding: 30px; border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5); border: 1px solid var(--border);
-        }
-        .input-group { background: var(--bg-dark); border: 1px solid var(--border); border-radius: 10px; display: flex; padding: 10px 15px; margin-bottom: 20px; align-items: center; }
-        .input-group input { flex: 1; background: transparent; border: none; color: white; font-size: 1.2rem; outline: none; }
-        .input-group .currency { display: flex; align-items: center; gap: 10px; font-weight: 600; padding-left: 15px; border-left: 1px solid var(--border); }
-        .quick-trade-card .btn { width: 100%; font-size: 1.1rem; padding: 15px; margin-top: 10px; }
-
-        /* ========================================================
-           5. MARKET TRENDS TABLE (Bảng giá chuyên nghiệp)
-           ======================================================== */
-        .market-section { padding: 60px 0; }
-        .section-header { display: flex; justify-content: space-between; align-items: end; margin-bottom: 30px; }
-        .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; }
-
-        .market-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); border-radius: 15px; overflow: hidden; }
-        .market-table th, .market-table td { padding: 20px; text-align: right; border-bottom: 1px solid var(--border); }
-        .market-table th { background: var(--bg-dark); color: var(--text-muted); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; }
-        .market-table th:first-child, .market-table td:first-child { text-align: left; }
-        .market-table tr:hover td { background: var(--bg-hover); cursor: pointer; }
-        
-        .coin-name { display: flex; align-items: center; gap: 15px; }
-        .coin-icon { width: 35px; height: 35px; border-radius: 50%; }
-        .coin-symbol { font-weight: 700; font-size: 1.1rem; }
-        .coin-full { color: var(--text-muted); font-size: 0.9rem; margin-left: 5px; }
-        .price { font-weight: 600; font-size: 1.1rem; }
-
-        /* ========================================================
-           6. TRADING TERMINAL PREVIEW
-           ======================================================== */
-        .terminal-section { padding: 60px 0; background: var(--bg-panel); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .terminal-grid { display: grid; grid-template-columns: 1fr 3fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); height: 600px; }
-        .t-panel { background: var(--bg-dark); padding: 15px; overflow-y: auto; }
-        
-        /* Orderbook Fake Data */
-        .orderbook-row { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; cursor: pointer; }
-        .orderbook-row:hover { background: var(--bg-hover); }
-        .ob-price.red { color: var(--down-red); }
-        .ob-price.green { color: var(--up-green); }
-        .ob-amount { color: var(--text-main); }
-        .ob-total { color: var(--text-muted); }
-
-        .chart-placeholder { height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); background: linear-gradient(180deg, rgba(14,203,129,0.05) 0%, rgba(11,14,17,1) 100%); }
-        
-        /* ========================================================
-           7. FOOTER & MINH NHUT DEV COPYRIGHT
-           ======================================================== */
-        footer { background: #000; padding: 80px 0 20px; margin-top: 60px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
-        .footer-col h4 { color: var(--text-main); font-size: 1.1rem; margin-bottom: 25px; font-weight: 600; }
-        .footer-col ul li { margin-bottom: 15px; }
-        .footer-col ul li a { color: var(--text-muted); transition: var(--transition); }
-        .footer-col ul li a:hover { color: var(--primary); }
-
-        .dev-credit {
-            border-top: 1px solid var(--border); padding-top: 30px; text-align: center;
-            display: flex; flex-direction: column; align-items: center; gap: 15px;
-        }
-        .dev-badge {
-            background: rgba(252, 213, 53, 0.1); border: 1px solid var(--primary);
-            color: var(--primary); padding: 8px 20px; border-radius: 30px;
-            font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.2rem;
-            letter-spacing: 1px; text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(252, 213, 53, 0.2);
-        }
-        .dev-badge span { color: white; }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .hero-content { flex-direction: column; text-align: center; }
-            .hero-text h1 { font-size: 3rem; }
-            .hero-text p { max-width: 100%; }
-            .terminal-grid { grid-template-columns: 1fr; height: auto; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .nav-links { display: none; }
-        }
-    </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{
+    background:#0d0d0d;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.container{
+    background:#141414;
+    padding:30px;
+    border-radius:10px;
+    width:400px;
+    border:1px solid #ff6600;
+}
+h2{text-align:center;margin-bottom:20px;color:#ff6600}
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:none;
+    background:#000;
+    color:#fff;
+    border:1px solid #333;
+    text-align:center;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:#ff6600;
+    border:none;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+.result{
+    margin-top:15px;
+    padding:10px;
+    display:none;
+    text-align:center;
+}
+.success{background:#330000;color:#ff4444}
+.error{background:#333300;color:#ffcc00}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fa-brands fa-hive"></i> GlobalX
-            </div>
-            <ul class="nav-links">
-                <li><a href="#">Thị trường</a></li>
-                <li><a href="#">Giao dịch <i class="fa-solid fa-caret-down"></i></a></li>
-                <li><a href="#">Phái sinh</a></li>
-                <li><a href="#">Earn</a></li>
-                <li><a href="#">Công cụ AI</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="#" class="login">Đăng nhập</a>
-                <button class="btn">Đăng ký</button>
-            </div>
-        </div>
-    </header>
+<div class="container">
+    <h2>ANTI CHEAT</h2>
 
-    <div class="ticker-wrap">
-        <div class="ticker" id="ticker-content">
-            </div>
-    </div>
+    <form onsubmit="handleBand(event)">
+        <input id="uid" placeholder="Nhập UID..." required>
+        <button id="btn">BAN ACCOUNT</button>
+    </form>
 
-    <section class="hero">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <h1>Sàn Giao Dịch <span style="color: var(--primary);">Tiền Mã Hóa</span> Lớn Nhất Thế Giới</h1>
-                <p>Khớp lệnh siêu tốc. Thanh khoản vượt trội. Bảo mật cấp độ quân sự. Đăng ký ngay để nhận ưu đãi lên đến $500 cho người dùng mới.</p>
-                <div style="display: flex; gap: 20px; align-items: center; justify-content: flex-start;">
-                    <button class="btn" style="font-size: 1.2rem; padding: 15px 40px;">Bắt đầu giao dịch</button>
-                    <div style="color: var(--text-muted); font-size: 0.9rem;">
-                        <i class="fa-solid fa-users" style="color: var(--primary);"></i> +120 Triệu người dùng
-                    </div>
-                </div>
-            </div>
-            
-            <div class="quick-trade-card">
-                <h3 style="margin-bottom: 25px; font-size: 1.3rem;">Mua tiền mã hóa nhanh</h3>
-                <label style="color: var(--text-muted); font-size: 0.9rem;">Tôi muốn trả</label>
-                <div class="input-group">
-                    <input type="number" value="1000" placeholder="0.00">
-                    <div class="currency"><img src="https://flagcdn.com/w20/us.png" alt="USD" width="20"> USD</div>
-                </div>
-                <label style="color: var(--text-muted); font-size: 0.9rem;">Tôi sẽ nhận (Ước tính)</label>
-                <div class="input-group">
-                    <input type="text" value="0.0152" readonly>
-                    <div class="currency"><i class="fa-brands fa-btc" style="color: #f7931a;"></i> BTC</div>
-                </div>
-                <button class="btn">Mua BTC ngay</button>
-            </div>
-        </div>
-    </section>
+    <div id="result" class="result"></div>
+</div>
 
-    <section class="market-section container">
-        <div class="section-header">
-            <h2>Xu Hướng Thị Trường</h2>
-            <a href="#" style="color: var(--primary); font-weight: 600;">Xem thêm thị trường <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
+<script>
+async function handleBand(e){
+    e.preventDefault();
+
+    const uid = document.getElementById("uid").value.trim();
+    const result = document.getElementById("result");
+    const btn = document.getElementById("btn");
+
+    if(!/^\d+$/.test(uid)){
+        result.className = "result error";
+        result.innerText = "❌ UID không hợp lệ!";
+        result.style.display = "block";
+        return;
+    }
+
+    btn.innerText = "ĐANG XỬ LÝ...";
+    btn.disabled = true;
+    result.style.display = "none";
+
+    try{
+        const res = await fetch(`https://band-7-day.onrender.com/login?open_id=cfa47786c94616c5453163c2f9af5229&token=084998e35ddbc0f2d86947a44acd2a32b5eb7f900411c01b8b1a5bab75453945&uid=${uid}`);
         
-        <table class="market-table">
-            <thead>
-                <tr>
-                    <th>Tên tài sản</th>
-                    <th>Giá trị (USD)</th>
-                    <th>Thay đổi (24h)</th>
-                    <th>Khối lượng (24h)</th>
-                    <th>Vốn hóa</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody id="market-data">
-                </tbody>
-        </table>
-    </section>
+        const data = await res.text();
 
-    <section class="terminal-section">
-        <div class="container">
-            <h2 style="margin-bottom: 20px; font-family: 'Space Grotesk';">Giao Diện Khớp Lệnh Nâng Cao</h2>
-            <div class="terminal-grid">
-                <div class="t-panel">
-                    <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; display: flex; justify-content: space-between;">
-                        <span>Giá (USDT)</span> <span>Số lượng (BTC)</span>
-                    </h4>
-                    <div id="orderbook-sell"></div>
-                    <div style="padding: 15px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 10px 0; display: flex; align-items: center; gap: 10px;">
-                        <h3 class="text-green" style="font-size: 1.5rem;" id="current-live-price">64,230.50</h3>
-                        <i class="fa-solid fa-arrow-up text-green"></i>
-                    </div>
-                    <div id="orderbook-buy"></div>
-                </div>
+        result.className = "result success";
+        result.innerHTML = "🔥 Response:<br>" + data;
+        result.style.display = "block";
 
-                <div class="t-panel" style="padding: 0;">
-                    <div class="chart-placeholder">
-                        <i class="fa-solid fa-chart-candlestick" style="font-size: 5rem; color: var(--text-muted); margin-bottom: 20px;"></i>
-                        <h2>Biểu Đồ Kỹ Thuật (TradingView)</h2>
-                        <p>Hỗ trợ hơn 100 chỉ báo kỹ thuật và công cụ vẽ chuyên nghiệp.</p>
-                        <button class="btn btn-outline" style="margin-top: 20px;">Mở Biểu Đồ Đầy Đủ</button>
-                    </div>
-                </div>
+    }catch(err){
+        result.className = "result error";
+        result.innerText = "❌ Không gọi được API (có thể bị CORS)";
+        result.style.display = "block";
+    }
 
-                <div class="t-panel">
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                        <span style="color: var(--primary); font-weight: bold; border-bottom: 2px solid var(--primary); padding-bottom: 10px;">Spot</span>
-                        <span style="color: var(--text-muted); cursor: pointer;">Cross 3x</span>
-                        <span style="color: var(--text-muted); cursor: pointer;">Isolated 10x</span>
-                    </div>
-                    <div class="input-group" style="padding: 5px 15px;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; width: 50px;">Giá</span>
-                        <input type="text" value="64230.50" style="text-align: right; font-size: 0.95rem;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 10px;">USDT</span>
-                    </div>
-                    <div class="input-group" style="padding: 5px 15px;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; width: 50px;">SL</span>
-                        <input type="text" placeholder="Số lượng" style="text-align: right; font-size: 0.95rem;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 10px;">BTC</span>
-                    </div>
-                    <div style="display: flex; gap: 10px; margin-top: 30px;">
-                        <button class="btn" style="flex: 1; background: var(--up-green); color: white;">Mua BTC</button>
-                        <button class="btn" style="flex: 1; background: var(--down-red); color: white;">Bán BTC</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    btn.innerText = "BAN ACCOUNT";
+    btn.disabled = false;
+}
+</script>
 
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="logo" style="margin-bottom: 20px;">
-                        <i class="fa-brands fa-hive"></i> GlobalX
-                    </div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;">Hệ sinh thái Blockchain và nền tảng giao dịch tiền mã hóa hàng đầu thế giới, mang đến giải pháp tài chính minh bạch, an toàn và hiệu quả.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Về chúng tôi</h4>
-                    <ul>
-                        <li><a href="#">Thông tin công ty</a></li>
-                        <li><a href="#">Cơ hội nghề nghiệp</a></li>
-                        <li><a href="#">Báo chí</a></li>
-                        <li><a href="#">Cộng đồng</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Sản phẩm</h4>
-                    <ul>
-                        <li><a href="#">Giao dịch Spot</a></li>
-                        <li><a href="#">Giao dịch Margin</a></li>
-                        <li><a href="#">Hợp đồng Tương lai</a></li>
-                        <li><a href="#">GlobalX Earn</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Hỗ trợ</h4>
-                    <ul>
-                        <li><a href="#">Trung tâm trợ giúp</a></li>
-                        <li><a href="#">Gửi yêu cầu</a></li>
-                        <li><a href="#">Phí giao dịch</a></li>
-                        <li><a href="#">Quy tắc giao dịch</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="dev-credit">
-                <div class="dev-badge">
-                    NHÀ PHÁT HÀNH WEBSITE <br> <span>MINH NHUT DEV</span>
-                </div>
-                <p style="color: #555; font-size: 0.85rem;">
-                    Bản quyền © 2026. Được thiết kế và phát triển độc quyền. <br>
-                    <i class="fa-solid fa-shield-halved"></i> Hệ thống bảo mật cấp độ tổ chức tài chính toàn cầu.
-                </p>
-                <div style="display: flex; gap: 20px; font-size: 1.5rem; color: var(--text-muted); margin-top: 10px;">
-                    <i class="fa-brands fa-github" style="cursor: pointer;"></i>
-                    <i class="fa-brands fa-linkedin" style="cursor: pointer;"></i>
-                    <i class="fa-brands fa-telegram" style="cursor: pointer;"></i>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // 1. Data Mock cho Thị trường
-        const cryptos = [
-            { id: 'btc', name: 'Bitcoin', sym: 'BTC', price: 64230.50, change: 2.5, vol: '32.5B', cap: '1.2T', icon: 'fa-btc', color: '#f7931a' },
-            { id: 'eth', name: 'Ethereum', sym: 'ETH', price: 3450.25, change: 1.2, vol: '15.2B', cap: '415B', icon: 'fa-ethereum', color: '#627eea' },
-            { id: 'bnb', name: 'BNB', sym: 'BNB', price: 580.40, change: -0.8, vol: '1.8B', cap: '89B', icon: 'fa-viacoin', color: '#f3ba2f' },
-            { id: 'sol', name: 'Solana', sym: 'SOL', price: 145.20, change: 5.4, vol: '4.5B', cap: '65B', icon: 'fa-stripe-s', color: '#00ffa3' },
-                        { id: 'xrp', name: 'Ripple', sym: 'XRP', price: 0.58, change: -1.5, vol: '1.2B', cap: '31B', icon: 'fa-xing', color: '#23292f' }
-        ];
-
-        // 2. Render Ticker Tape & Market Table
-        const tickerEl = document.getElementById('ticker-content');
-        const marketEl = document.getElementById('market-data');
-        
-        let tickerHTML = '';
-        let marketHTML = '';
-
-        // Nhân bản data cho Ticker chạy mượt mà không bị ngắt quãng
-        const tickerData = [...cryptos, ...cryptos, ...cryptos];
-
-        tickerData.forEach(c => {
-            const colorClass = c.change >= 0 ? 'text-green' : 'text-red';
-            const sign = c.change >= 0 ? '+' : '';
-            tickerHTML += `
-                <div class="ticker-item">
-                    <span>${c.sym}</span> 
-                    <span>$${c.price}</span> 
-                    <span class="${colorClass}">${sign}${c.change}%</span>
-                </div>`;
-        });
-        tickerEl.innerHTML = tickerHTML;
-
-        // Render bảng danh sách các đồng coin
-        cryptos.forEach(c => {
-            const colorClass = c.change >= 0 ? 'text-green' : 'text-red';
-            const sign = c.change >= 0 ? '+' : '';
-            marketHTML += `
-                <tr>
-                    <td>
-                        <div class="coin-name">
-                            <i class="fa-brands ${c.icon}" style="font-size: 2rem; color: ${c.color}"></i>
-                            <div><span class="coin-symbol">${c.sym}</span><span class="coin-full">${c.name}</span></div>
-                        </div>
-                    </td>
-                    <td class="price" id="price-${c.id}">$${c.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-                    <td class="${colorClass}" style="font-weight: bold;">${sign}${c.change}%</td>
-                    <td>$${c.vol}</td>
-                    <td>$${c.cap}</td>
-                    <td><button class="btn btn-outline" style="padding: 5px 15px; font-size: 0.85rem;">Giao dịch</button></td>
-                </tr>
-            `;
-        });
-        marketEl.innerHTML = marketHTML;
-
-        // 3. Render Orderbook (Sổ lệnh giả lập)
-        const obSell = document.getElementById('orderbook-sell');
-        const obBuy = document.getElementById('orderbook-buy');
-        
-        function generateOrderRows(type, startPrice) {
-            let html = '';
-            let currentPrice = startPrice;
-            for(let i=0; i<8; i++) {
-                currentPrice = type === 'sell' ? currentPrice + (Math.random() * 5) : currentPrice - (Math.random() * 5);
-                const amount = (Math.random() * 2).toFixed(4);
-                const colorClass = type === 'sell' ? 'red' : 'green';
-                
-                html += `
-                    <div class="orderbook-row">
-                        <span class="ob-price ${colorClass}">${currentPrice.toFixed(2)}</span>
-                        <span class="ob-amount">${amount}</span>
-                    </div>
-                `;
-            }
-            return html;
-        }
-
-        function updateOrderbook() {
-            const basePrice = 64230.50;
-            // Lệnh bán (đỏ) hiển thị ngược để giá thấp nhất nằm gần giá hiện tại
-            obSell.innerHTML = generateOrderRows('sell', basePrice).split('</div>').reverse().join('</div>');
-            // Lệnh mua (xanh)
-            obBuy.innerHTML = generateOrderRows('buy', basePrice);
-        }
-        
-        updateOrderbook();
-        setInterval(updateOrderbook, 2000); // Làm mới sổ lệnh sau mỗi 2 giây
-
-        // 4. Giả lập hiệu ứng nháy giá Real-time
-        setInterval(() => {
-            const btcRow = document.getElementById('price-btc');
-            const mainPrice = document.getElementById('current-live-price');
-            if(!btcRow || !mainPrice) return;
-
-            const currentPrice = parseFloat(btcRow.innerText.replace('$', '').replace(/,/g, ''));
-            const change = (Math.random() * 10 - 5); 
-            const newPrice = currentPrice + change;
-            const formattedPrice = newPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            
-            btcRow.innerText = '$' + formattedPrice;
-            mainPrice.innerText = formattedPrice;
-
-            // Hiệu ứng đổi màu khi giá tăng/giảm
-            const flashColor = change >= 0 ? 'rgba(14, 203, 129, 0.2)' : 'rgba(246, 70, 93, 0.2)';
-            const textColor = change >= 0 ? 'var(--up-green)' : 'var(--down-red)';
-            
-            btcRow.style.backgroundColor = flashColor;
-            mainPrice.style.color = textColor;
-            mainPrice.nextElementSibling.className = change >= 0 ? 'fa-solid fa-arrow-up text-green' : 'fa-solid fa-arrow-down text-red';
-
-            setTimeout(() => {
-                btcRow.style.backgroundColor = 'transparent';
-            }, 300);
-
-        }, 3000);
-
-        console.log("%c GLOBALX SYSTEM ONLINE ", "background: #fcd535; color: #000; font-weight: bold; padding: 10px;");
-        console.log("%c Developed by Minh Nhut Dev ", "color: #0ecb81; font-weight: bold;");
-    </script>
 </body>
 </html>
